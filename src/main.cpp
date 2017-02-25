@@ -3,6 +3,7 @@
 #include "lib/sound.h"
 #include "lib/tests.h"
 #include "lib/exception.h"
+#include "lib/keyboard.h"
 #include <string>
 int main2(int argc, char* argv[])
 {
@@ -21,10 +22,10 @@ int main2(int argc, char* argv[])
     }
     else if(mode == "--keyboard")
     {
-        SOUND s;
+        KEYBOARD keyboard;
         //s.sound();
         //s.youtube();
-        s.keyboard();
+        keyboard.play();
     }
     else
     {

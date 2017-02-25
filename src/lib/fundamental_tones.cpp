@@ -73,7 +73,8 @@ FUNDAMENTAL_TONES::get_octave(double oct)
     
 }
 
-std::vector<double> FUNDAMENTAL_TONES::get_octave_middle()
+std::vector<double> 
+FUNDAMENTAL_TONES::get_octave_middle()
 {
     return get_octave(4.0);
 }
