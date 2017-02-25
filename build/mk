@@ -1,0 +1,28 @@
+
+
+echo "Compiling"
+
+
+main_dir='../src'
+main_lib=$main_dir/'lib'
+ext='*.cpp'
+exe_loc='../'
+exe_name='main'
+exe=$exe_loc$exe_name
+
+code_to_compile=$main_dir/$ext' '$main_lib/$ext
+
+
+frameworks='-framework sfml-window -framework sfml-graphics -framework sfml-audio -framework sfml-system'
+
+if [ -f $exe ]; then
+    rm $exe
+fi
+g++ -std=c++0x $frameworks $code_to_compile -o $exe
+
+
+if [ -f $exe ]; then
+   echo "Compile complete"
+else
+   echo "Compile fail"
+fi
