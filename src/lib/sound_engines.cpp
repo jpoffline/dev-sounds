@@ -23,19 +23,20 @@ struct Mode{
 
 short PianoTone(double i, double freq)
 {
-    return JP_sound::SineWave(i,freq,       0.25 )
-         + JP_sound::SineWave(i,freq *   4, 0.25 )
-         + JP_sound::SineWave(i,freq *   8, 0.25 )
-         + JP_sound::SineWave(i,freq * 1.3, 0.25 );
+    return JP_sound::SineWave(i,freq,       0.2 )
+         + JP_sound::SineWave(i,freq *   4, 0.2 )
+         + JP_sound::SineWave(i,freq *   8, 0.2 )
+         + JP_sound::SineWave(i,freq * 1.3, 0.2 )
+         + SineWave(i, freq / 8, 0.2 );
 }
 
 short PadTone(double time, double freq)
 {
     return(SquarePianoTone(time, freq));
     return JP_sound::SineWave(time,freq,       0.25 )
-         + JP_sound::SineWave(time,freq*1.1,       0.25 )
-         + JP_sound::SineWave(time,freq*1.9,       0.25 )
-         + JP_sound::SineWave(time,freq*5,       0.1 );
+         + JP_sound::SineWave(time,freq*1.1,   0.25 )
+         + JP_sound::SineWave(time,freq*1.9,   0.25 )
+         + JP_sound::SineWave(time,freq*5,     0.1  );
 }
     
 short SquarePianoTone(double i, double freq)

@@ -46,7 +46,7 @@ KEYBOARD::_gen_keyboard_samples()
     auto frequencies = ftones.get_octave_middle();
     _keyboard_samples.resize(frequencies.size());
     
-    int nsamples = 4410;
+    int nsamples = 44100;
     JP_sound::EnvelopeParams eps(nsamples);
     eps.sustainLevel = 0.3;
     eps.releaseRate = 0.01;
@@ -57,7 +57,10 @@ KEYBOARD::_gen_keyboard_samples()
     {
         for(int f = 0; f < frequencies.size(); f++)
         {
-            _keyboard_samples[f].push_back(envelope.get(i) * JP_sound::PianoTone(i,frequencies[f]));
+            _keyboard_samples[f].push_back(
+                envelope.get(i) * JP_sound::PianoTone(i,frequencies[f])
+            );
+            
         }
     }
     
