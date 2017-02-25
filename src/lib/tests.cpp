@@ -16,6 +16,7 @@ const std::string scratch_loc = "/Users/jap/scratch/dev/dump-sfml-dev/";
     
 void run()
 {
+    std::cout << "Running test suite" << std::endl;
     dump_envelope();
     test_samples();
     test_samples_with_envelope();

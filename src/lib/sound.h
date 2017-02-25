@@ -21,28 +21,24 @@
 #include "Envelopes.h"
 
 
-
 class SOUND
 {
     typedef std::vector<sf::Int16> SAMPLES;
-    
+    typedef sf::Keyboard SFk;
     private:
         FUNDAMENTAL_TONES ftones;
 
     public:
         
-        SOUND()
-        {
-            
-        }
-    
-    
+        SOUND();
         void youtube();
         void keyboard();
         std::vector<sf::Sound> gen_simple_tone(double freq);
         std::vector<SAMPLES> gen_keyboard_notes();
         SAMPLES gen_samples();
-    
+        std::map<SFk::Key, int> gen_keyboard_mapping();
+
+
 };
 
 

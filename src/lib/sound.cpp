@@ -8,6 +8,10 @@
 
 #include "sound.h"
 
+SOUND::SOUND()
+{
+    
+}
 
 SOUND::SAMPLES
 SOUND::gen_samples()
@@ -89,7 +93,7 @@ void SOUND::youtube()
             }
 
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) )
+        if(SFk::isKeyPressed(SFk::Key::W) )
         {
             sound.play();
             sf::sleep(sf::milliseconds(100));
@@ -103,14 +107,8 @@ void SOUND::youtube()
 void
 SOUND::keyboard()
 {
-    
-    
-    
-    sf::RenderWindow window(sf::VideoMode(800,600),"sound");
     const int wait = 210;
-    
     auto samples_vec = gen_keyboard_notes();
-    
     std::vector<sf::SoundBuffer> buffers(samples_vec.size());
     std::vector<sf::Sound> sounds(buffers.size());
     for(int i = 0; i < samples_vec.size(); i++)
@@ -118,72 +116,22 @@ SOUND::keyboard()
         buffers[i].loadFromSamples(&samples_vec[i][0], samples_vec[i].size(), 1, 44100);
         sounds[i].setBuffer(buffers[i]);
     }
-
     
+    auto keys = gen_keyboard_mapping();
 
-    while(window.isOpen())
+    while(true)
     {
-        sf::Event event;
-        while (window.pollEvent(event))
+        if(SFk::isKeyPressed(SFk::Key::Escape))
         {
-            if(event.type == sf::Event::Closed)
+            break;
+        }
+        for(auto& k : keys)
+        {
+            if(SFk::isKeyPressed(k.first))
             {
-                window.close();
+                sounds[k.second].play();
+                sf::sleep(sf::milliseconds(wait));
             }
-            
-        }
-        
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-        {
-            sounds[0].play();
-            sf::sleep(sf::milliseconds(wait));
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-        {
-            sounds[1].play();
-            sf::sleep(sf::milliseconds(wait));
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-        {
-            sounds[2].play();
-            sf::sleep(sf::milliseconds(wait));
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-        {
-            sounds[3].play();
-            sf::sleep(sf::milliseconds(wait));
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F))
-        {
-            sounds[4].play();
-            sf::sleep(sf::milliseconds(wait));
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::G))
-        {
-            sounds[5].play();
-            sf::sleep(sf::milliseconds(wait));
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::H))
-        {
-            sounds[6].play();
-            sf::sleep(sf::milliseconds(wait));
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
-        {
-            sounds[7].play();
-            sf::sleep(sf::milliseconds(wait));
-        }
-        
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
-        {
-            sounds[7].play();
-            sf::sleep(sf::milliseconds(wait));
-            sounds[4].play();
-            sf::sleep(sf::milliseconds(wait));
-            sounds[1].play();
-            sf::sleep(sf::milliseconds(wait));
-            sounds[7].play();
-            sf::sleep(sf::milliseconds(wait));
         }
         
     }
@@ -202,6 +150,8 @@ SOUND::gen_keyboard_notes()
     
     JP_sound::EnvelopeParams eps(nsamples);
     eps.sustainLevel = 0.3;
+    eps.releaseRate = 0.01;
+    eps.releaseTime = 0.1;
     auto envelope = JP_sound::Envelopes(eps);
 
     for(int i = 0; i < nsamples; i++)
@@ -216,6 +166,21 @@ SOUND::gen_keyboard_notes()
     
 }
 
+std::map<SOUND::SFk::Key, int> 
+SOUND::gen_keyboard_mapping()
+{
+    std::map<SFk::Key, int> keys{
+        {SFk::Key::A, 0}, 
+        {SFk::Key::S, 1},
+        {SFk::Key::D, 2},
+        {SFk::Key::F, 3},
+        {SFk::Key::G, 4},
+        {SFk::Key::H, 5},
+        {SFk::Key::J, 6}
+    };
+    return keys;
+    
+}
 
 
 
