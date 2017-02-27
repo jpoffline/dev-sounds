@@ -11,36 +11,59 @@ void
 KEYBOARD::play()
 {
     const int wait = 210;
+    bool play_via_key = false;
+
+
     std::vector<sf::SoundBuffer> buffers(_keyboard_samples.size());
     std::vector<sf::Sound> sounds(buffers.size());
-    for(int i = 0; i < _keyboard_samples.size(); i++)
+    auto nsounds = _keyboard_samples.size();
+    for(int i = 0; i < nsounds; i++)
     {
         buffers[i].loadFromSamples(&_keyboard_samples[i][0], _keyboard_samples[i].size(), 1, 44100);
         sounds[i].setBuffer(buffers[i]);
     }
 
-    sf::Window window(sf::VideoMode(_window_height, _window_width), "My window");
+
+
+    sf::Window window(sf::VideoMode(_window_width, _window_height), "My window");
     while(!SFk::isKeyPressed(SFk::Key::Escape))
     {
-        for(auto& k : _keys)
+        if(play_via_key)
         {
-            if(SFk::isKeyPressed(k.first))
+            for(auto& k : _keys)
             {
-                if(sounds[k.second].getStatus() != sf::Sound::Status::Playing)
+                if(SFk::isKeyPressed(k.first))
                 {
-                    sounds[k.second].play();
+                    if(sounds[k.second].getStatus() != sf::Sound::Status::Playing)
+                    {
+                        sounds[k.second].play();
+                    }
                 }
-
             }
         }
-        auto loc = sf::Mouse::getPosition(window);
-        if(_is_mouse_in_window(loc))
+        else
         {
-            std::cout << loc.x << " " << loc.y << std::endl;
-            auto hh = _get_mouse_loc_frac(loc);
-            std::cout << hh.x << " " << hh.y << std::endl;
+            auto loc = sf::Mouse::getPosition(window);
+            if(_is_mouse_in_window(loc))
+            {
+                int idx = (int)(nsounds * loc.x / (float)_window_width);
+                for(auto& k : _keys)
+                {
+                    if(idx == k.second)
+                    {
+                        if(sounds[idx].getStatus() != sf::Sound::Status::Playing)
+                        {
+                            std::cout << idx << std::endl;
+                            sounds[idx].play();
+                        }
+                    }
+
+                }
+                
+            }
         }
     }
+    
 }
 
 sf::Vector2f 
