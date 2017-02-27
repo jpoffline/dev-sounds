@@ -53,15 +53,6 @@ KEYBOARD::_get_mouse_loc_frac(const sf::Vector2i loc)
 }
 
 
-sf::Vector2f 
-KEYBOARD::_get_mouse_loc_frac()
-{
-    auto loc = sf::Mouse::getPosition(window);
-    sf::Vector2f result;
-    result.x = loc.y / (float)_window_width;
-    result.y = loc.x / (float)_window_height;
-    return result;
-}
 
 bool 
 KEYBOARD::_is_mouse_in_window(const sf::Vector2i loc)
