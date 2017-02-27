@@ -19,19 +19,22 @@ class KEYBOARD
     private:
         FUNDAMENTAL_TONES ftones;
         std::map<SFk::Key, int> _keys;
-        void _gen_key_mappings();
         std::vector<SAMPLES> _keyboard_samples;
+        const int nsamples = 44100;
+        const int _window_height = 800;
+        const int _window_width = 600;
+        void _gen_key_mappings();
         void _gen_keyboard_samples();
 
-        double _key_length_seconds;
-        int _nsamples_per_second;
+        bool _is_mouse_in_window(const sf::Vector2i loc);
+        sf::Vector2f _get_mouse_loc_frac(const sf::Vector2i loc);
 
+        
     public:
         
         KEYBOARD();
         void play();
         
-        SAMPLES gen_samples();
 
 
 };
