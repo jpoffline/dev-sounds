@@ -7,22 +7,30 @@ KEYBOARD::KEYBOARD()
     
 }
 
+void 
+KEYBOARD::play_pad()
+{
+    play_via_key = false;
+}
+
+
+
 void
 KEYBOARD::play()
 {
-    const int wait = 210;
-    bool play_via_key = false;
 
-
+    std::vector<sf::Sound> sounds;
     std::vector<sf::SoundBuffer> buffers(_keyboard_samples.size());
-    std::vector<sf::Sound> sounds(buffers.size());
+    sounds.resize(buffers.size());
     auto nsounds = _keyboard_samples.size();
     for(int i = 0; i < nsounds; i++)
     {
+        sf::SoundBuffer buffer;
+        //buffer.loadFromSamples(&_keyboard_samples[i][0], _keyboard_samples[i].size(), 1, 44100);
         buffers[i].loadFromSamples(&_keyboard_samples[i][0], _keyboard_samples[i].size(), 1, 44100);
         sounds[i].setBuffer(buffers[i]);
+        //sounds[i].setBuffer(buffer);
     }
-
 
 
     sf::Window window(sf::VideoMode(_window_width, _window_height), "My window");

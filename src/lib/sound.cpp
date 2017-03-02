@@ -50,9 +50,9 @@ void SOUND::youtube()
     int which = 0;
     for(int i = 0; i < nsamples; i++)
     {
-        //samples.push_back(JP_sound::Wub(i));
+        samples.push_back(JP_sound::Wub(i));
        // samples.push_back(JP_sound::SquareWave(i,440,0.9 ));
-        
+        /*
         samples.push_back(
                           JP_sound::SineWave(i,ftones.get("Fs"),  0.1)
                           +JP_sound::SineWave(i,ftones.get("B"),  0.1)
@@ -60,7 +60,7 @@ void SOUND::youtube()
                           +JP_sound::SineWave(i,ftones.get("Fs", 1),  0.1)
                           +JP_sound::SineWave(i,ftones.get("B", 2),  0.1)
                           +JP_sound::SineWave(i,ftones.get("D", 1),  0.1)
-                          );
+                          );*/
        /* if(i > frac)    {which = 1;}
         if(i > 2 * frac){which = 2;}
         if(i > 3 * frac){which = 3;}

@@ -20,11 +20,21 @@ int main2(int argc, char* argv[])
     {
         tests::run();
     }
+    else if(mode == "--wub")
+    {
+        SOUND s;
+        s.youtube();
+
+    }
     else if(mode == "--keyboard")
     {
         KEYBOARD keyboard;
-        //s.sound();
-        //s.youtube();
+        keyboard.play();
+    }
+    else if(mode == "--pad")
+    {
+        KEYBOARD keyboard;
+        keyboard.play_pad();
         keyboard.play();
     }
     else

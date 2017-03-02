@@ -28,12 +28,15 @@ class KEYBOARD
 
         bool _is_mouse_in_window(const sf::Vector2i loc);
         sf::Vector2f _get_mouse_loc_frac(const sf::Vector2i loc);
-
+        bool play_via_key = true;
         
+        
+
     public:
         
         KEYBOARD();
         void play();
+        void play_pad();
         
 
 
