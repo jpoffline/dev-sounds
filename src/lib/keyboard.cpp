@@ -172,19 +172,38 @@ void KEYBOARD::play_octPad()
     std::cout << "* buffers prepared" << std::endl;
     std::cout << "* ready to play" << std::endl;
 
+    bool is_paused = false;
     
+
     while(!SFk::isKeyPressed(SFk::Key::Escape))
     {
-        auto loc = sf::Mouse::getPosition(window);
-        if(_is_mouse_in_window(loc))
+
+        if(SFk::isKeyPressed(SFk::P))
         {
-            int idx_note   = (int)(nNotes   * loc.x / (float)_window_width );
-            int idx_octave = (int)(nOctaves * loc.y / (float)_window_height);
-            
-            if(sounds[idx_octave][idx_note].getStatus() != sf::Sound::Status::Playing)
+            if(is_paused) 
             {
-                sounds[idx_octave][idx_note].play();
-                //std::cout << "Note: " << idx_note << ", octave: " << idx_octave << std::endl;   
+                is_paused = false;
+            }
+            else
+            {
+                is_paused = true;
+            }
+            sf::sleep(sf::milliseconds(1000));
+        }
+
+        if(!is_paused)
+        {
+            auto loc = sf::Mouse::getPosition(window);
+            if(_is_mouse_in_window(loc))
+            {
+                int idx_note   = (int)(nNotes   * loc.x / (float)_window_width );
+                int idx_octave = (int)(nOctaves * loc.y / (float)_window_height);
+                
+                if(sounds[idx_octave][idx_note].getStatus() != sf::Sound::Status::Playing)
+                {
+                    sounds[idx_octave][idx_note].play();
+                    //std::cout << "Note: " << idx_note << ", octave: " << idx_octave << std::endl;   
+                }
             }
         }
     }
