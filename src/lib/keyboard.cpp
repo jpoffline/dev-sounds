@@ -213,8 +213,9 @@ KEYBOARD::_get_oct_note(float x, float y)
     // From a position on the screen, return a pair
     // containing the octave and note-number.
     return std::make_pair<int, int>(
-        (int)(nNotes   * x / (float)_window_width ) ,
-        (int)(nOctaves * y / (float)_window_height)
+        (int)(nOctaves * y / (float)_window_height),
+        (int)(nNotes   * x / (float)_window_width ) 
+        
     );
 }
 
