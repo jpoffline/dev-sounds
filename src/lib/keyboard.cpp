@@ -99,8 +99,7 @@ void KEYBOARD::play_octPad()
     sf::RenderWindow window(sf::VideoMode(_window_width, _window_height), "My window");
 
     // Divide window into nOctaves x nNotes squares
-    const int nOctaves = 5;
-    const int nNotes = ftones.get_nnotes_per_octave();
+    
 
     auto height_per_octave = (double)_window_height / nOctaves;
     auto width_per_note = (double)_window_width / nNotes;
@@ -171,8 +170,9 @@ void KEYBOARD::play_octPad()
     }
     std::cout << "* buffers prepared" << std::endl;
     std::cout << "* ready to play" << std::endl;
+    std::cout << "   press P to enable/disable play" << std::endl;
 
-    bool is_paused = false;
+    bool paused = false;
     
 
     while(!SFk::isKeyPressed(SFk::Key::Escape))
@@ -180,33 +180,42 @@ void KEYBOARD::play_octPad()
 
         if(SFk::isKeyPressed(SFk::P))
         {
-            if(is_paused) 
+            if(paused) 
             {
-                is_paused = false;
+                paused = false;
             }
             else
             {
-                is_paused = true;
+                paused = true;
             }
             sf::sleep(sf::milliseconds(1000));
         }
 
-        if(!is_paused)
+        if(!paused)
         {
             auto loc = sf::Mouse::getPosition(window);
             if(_is_mouse_in_window(loc))
             {
-                int idx_note   = (int)(nNotes   * loc.x / (float)_window_width );
-                int idx_octave = (int)(nOctaves * loc.y / (float)_window_height);
-                
-                if(sounds[idx_octave][idx_note].getStatus() != sf::Sound::Status::Playing)
+                auto pp = _get_oct_note(loc.x, loc.y);
+                if(sounds[pp.first][pp.second].getStatus() != sf::Sound::Status::Playing)
                 {
-                    sounds[idx_octave][idx_note].play();
-                    //std::cout << "Note: " << idx_note << ", octave: " << idx_octave << std::endl;   
+                    sounds[pp.first][pp.second].play();
                 }
             }
         }
+
     }
+}
+
+std::pair<int, int> 
+KEYBOARD::_get_oct_note(float x, float y)
+{
+    // From a position on the screen, return a pair
+    // containing the octave and note-number.
+    return std::make_pair<int, int>(
+        (int)(nNotes   * x / (float)_window_width ) ,
+        (int)(nOctaves * y / (float)_window_height)
+    );
 }
 
 void

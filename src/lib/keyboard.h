@@ -30,7 +30,10 @@ class KEYBOARD
         sf::Vector2f _get_mouse_loc_frac(const sf::Vector2i loc);
         bool play_via_key = true;
         
-        
+        bool _is_paused();
+        std::pair<int, int> _get_oct_note(float, float);
+        const int nOctaves = 5;
+        const int nNotes = ftones.get_nnotes_per_octave();
 
     public:
         
