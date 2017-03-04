@@ -25,11 +25,8 @@ KEYBOARD::play()
     auto nsounds = _keyboard_samples.size();
     for(int i = 0; i < nsounds; i++)
     {
-        sf::SoundBuffer buffer;
-        //buffer.loadFromSamples(&_keyboard_samples[i][0], _keyboard_samples[i].size(), 1, 44100);
         buffers[i].loadFromSamples(&_keyboard_samples[i][0], _keyboard_samples[i].size(), 1, 44100);
         sounds[i].setBuffer(buffers[i]);
-        //sounds[i].setBuffer(buffer);
     }
 
 
@@ -55,18 +52,13 @@ KEYBOARD::play()
             if(_is_mouse_in_window(loc))
             {
                 int idx = (int)(nsounds * loc.x / (float)_window_width);
-                for(auto& k : _keys)
+                int idy = (int)(nsounds * loc.y / (float)_window_height);
+                std::cout << idx << " " << idy << std::endl;
+                if(sounds[idx].getStatus() != sf::Sound::Status::Playing)
                 {
-                    if(idx == k.second)
-                    {
-                        if(sounds[idx].getStatus() != sf::Sound::Status::Playing)
-                        {
-                            std::cout << idx << std::endl;
-                            sounds[idx].play();
-                        }
-                    }
-
+                    sounds[idx].play();
                 }
+
                 
             }
         }
@@ -100,6 +92,76 @@ KEYBOARD::_is_mouse_in_window(const sf::Vector2i loc)
     return true;
 
 
+}
+
+void KEYBOARD::play_octPad()
+{
+    // Divide window into nOctaves x nNotes squares
+    const int nOctaves = 5;
+    const int nNotes = ftones.get_nnotes_per_octave();
+
+
+    std::vector<std::vector<SAMPLES> > keyboard_samples;
+    keyboard_samples.resize(nOctaves + 1);
+    for(int o = 0; o < keyboard_samples.size(); o++)
+    {
+        keyboard_samples[o].resize(nNotes + 1);
+    }
+    
+
+    for(int sample = 0; sample < nsamples; sample++)
+    {
+        for(int octave = 0; octave <= nOctaves; octave ++)
+        {
+            for(int note = 1; note <= nNotes; note++)
+            {
+                keyboard_samples[octave][note - 1].push_back(
+                    JP_sound::PianoTone(
+                        sample, ftones.get(octave, note)
+                    )
+                );
+            }
+        }
+    }
+    std::cout << "* samples generated" << std::endl;
+
+    std::vector<std::vector<sf::Sound>> sounds;
+    std::vector<std::vector<sf::SoundBuffer>> buffers;
+    sounds.resize(nOctaves + 1);
+    buffers.resize(nOctaves + 1);
+    for(int o = 0; o < sounds.size(); o++)
+    {
+        sounds[o].resize(nNotes + 1);
+        buffers[o].resize(nNotes + 1);
+    }
+
+    for(int oct = 0; oct <= nOctaves; oct++)
+    {
+        for(int note = 0; note < nNotes; note ++)
+        {
+            buffers[oct][note].loadFromSamples(&keyboard_samples[oct][note][0], keyboard_samples[oct][note].size(), 1, 44100);
+            sounds[oct][note].setBuffer(buffers[oct][note]);
+        }
+    }
+    std::cout << "* buffers prepared" << std::endl;
+
+    sf::Window window(sf::VideoMode(_window_width, _window_height), "My window");
+    
+    while(!SFk::isKeyPressed(SFk::Key::Escape))
+    {
+        auto loc = sf::Mouse::getPosition(window);
+        if(_is_mouse_in_window(loc))
+        {
+            int idx_note   = (int)(nNotes   * loc.x / (float)_window_width );
+            int idx_octave = (int)(nOctaves * loc.y / (float)_window_height);
+            
+            if(sounds[idx_octave][idx_note].getStatus() != sf::Sound::Status::Playing)
+            {
+                sounds[idx_octave][idx_note].play();
+                //std::cout << "Note: " << idx_note << ", octave: " << idx_octave << std::endl;   
+            }
+        }
+    }
 }
 
 void

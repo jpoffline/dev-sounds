@@ -23,6 +23,7 @@ struct Mode{
 
 short PianoTone(double i, double freq)
 {
+    return JP_sound::SineWave(i,freq,       0.2 );
     return JP_sound::SineWave(i,freq,       0.2 )
          + JP_sound::SineWave(i,freq *   4, 0.2 )
          + JP_sound::SineWave(i,freq *   8, 0.2 )

@@ -37,6 +37,11 @@ int main2(int argc, char* argv[])
         keyboard.play_pad();
         keyboard.play();
     }
+    else if(mode == "--octpad")
+    {
+        KEYBOARD keyboard;
+        keyboard.play_octPad();
+    }
     else
     {
         throw JP::EXCEPTION("Invalid run mode given");

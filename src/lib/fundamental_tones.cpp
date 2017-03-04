@@ -27,18 +27,55 @@ FUNDAMENTAL_TONES::FUNDAMENTAL_TONES()
     
 }
 
+double FUNDAMENTAL_TONES::keyn_to_freq(int keyn)
+{
+    return std::pow(2, ((double)keyn - 49) / 12) * 440;
+}
+
+int FUNDAMENTAL_TONES::freq_to_keyn(double freq)
+{
+    return 49 + 12 * std::log2(freq / 440);
+}
+
+std::vector<std::string> 
+FUNDAMENTAL_TONES::getNoteNames()
+{
+    return note_names;
+}
+
+std::string 
+FUNDAMENTAL_TONES::getNoteName(int noteN)
+{
+    // Get the name of the key for the given
+    // key-number.
+    return note_names[noteN - 1];
+}
+
+double 
+FUNDAMENTAL_TONES::get(int octave, int keynumber)
+{
+    // Get the frequency for a given octave
+    // and key-number in that octave.
+    return keyn_to_freq(12 * octave + keynumber);
+}
+
 double
 FUNDAMENTAL_TONES::get(std::string key)
 {
     return notes[key];
 }
 
+int 
+FUNDAMENTAL_TONES::get_nnotes_per_octave()
+{
+    return notes.size();
+}
 
 double
 FUNDAMENTAL_TONES::get(std::string key , double oct)
 {
 
-    return get(key) * (oct) * 4;
+    return get(key) * oct * 4;
 }
 
 double

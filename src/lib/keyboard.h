@@ -22,7 +22,7 @@ class KEYBOARD
         std::vector<SAMPLES> _keyboard_samples;
         const int nsamples = 44100;
         const int _window_height = 800;
-        const int _window_width = 600;
+        const int _window_width = 800;
         void _gen_key_mappings();
         void _gen_keyboard_samples();
 
@@ -37,6 +37,7 @@ class KEYBOARD
         KEYBOARD();
         void play();
         void play_pad();
+        void play_octPad();
         
 
 
