@@ -136,7 +136,7 @@ void KEYBOARD::play_octPad()
     }
     std::cout << "* data structures prepared" << std::endl;
     
-
+    // Generate the samples.
     for(int sample = 0; sample < nsamples; sample++)
     {
         for(int octave = 0; octave <= nOctaves; octave ++)
@@ -145,16 +145,18 @@ void KEYBOARD::play_octPad()
             {
                 keyboard_samples[octave][note - 1].push_back(
                     JP_sound::PianoTone(
-                        sample, ftones.get(octave, note)
+                        sample, 
+                        ftones.get(octave, note)
                     )
                 );
             }
         }
     }
+
     std::cout << "* samples generated" << std::endl;
 
     
-
+    // Dump the samples into the buffer.
     for(int oct = 0; oct <= nOctaves; oct++)
     {
         for(int note = 0; note < nNotes; note ++)
@@ -174,10 +176,10 @@ void KEYBOARD::play_octPad()
 
     bool paused = false;
     
-
+    // Main loop.
     while(!SFk::isKeyPressed(SFk::Key::Escape))
     {
-
+        // Check to see if PAUSE button pressed.
         if(SFk::isKeyPressed(SFk::P))
         {
             if(paused) 
@@ -194,9 +196,11 @@ void KEYBOARD::play_octPad()
         if(!paused)
         {
             auto loc = sf::Mouse::getPosition(window);
+            // Use the mouse location to determine which sound buffer to play.
             if(_is_mouse_in_window(loc))
             {
                 auto pp = _get_oct_note(loc.x, loc.y);
+                // Only play buffer if current buffer not playing.
                 if(sounds[pp.first][pp.second].getStatus() != sf::Sound::Status::Playing)
                 {
                     sounds[pp.first][pp.second].play();
@@ -215,7 +219,6 @@ KEYBOARD::_get_oct_note(float x, float y)
     return std::make_pair<int, int>(
         (int)(nOctaves * y / (float)_window_height),
         (int)(nNotes   * x / (float)_window_width ) 
-        
     );
 }
 
