@@ -96,17 +96,46 @@ KEYBOARD::_is_mouse_in_window(const sf::Vector2i loc)
 
 void KEYBOARD::play_octPad()
 {
+    sf::RenderWindow window(sf::VideoMode(_window_width, _window_height), "My window");
+
     // Divide window into nOctaves x nNotes squares
     const int nOctaves = 5;
     const int nNotes = ftones.get_nnotes_per_octave();
 
+    auto height_per_octave = (double)_window_height / nOctaves;
+    auto width_per_note = (double)_window_width / nNotes;
+    
+    for(int octave = 0; octave <= nOctaves; octave++)
+    {
+        for(int note = 1; note <= nNotes; note++)
+        {
+            sf::RectangleShape rectangle;
+            rectangle.setSize(sf::Vector2f(width_per_note, height_per_octave));
+            rectangle.setOutlineColor(sf::Color::Black);
+            rectangle.setOutlineThickness(2);
+            rectangle.setFillColor(sf::Color(octave * 255 / nOctaves, (note - 1) * 255 / nNotes, 0));
+            rectangle.setPosition((note - 1) * width_per_note, octave  * height_per_octave);
+            window.draw(rectangle);
+        }
+    }
+    window.display();
+    
+    std::cout << "* window prepared" << std::endl;
 
-    std::vector<std::vector<SAMPLES> > keyboard_samples;
+    std::vector<std::vector<SAMPLES>>         keyboard_samples;
+    std::vector<std::vector<sf::Sound>>       sounds;
+    std::vector<std::vector<sf::SoundBuffer>> buffers;
+
     keyboard_samples.resize(nOctaves + 1);
+    sounds.resize(nOctaves + 1);
+    buffers.resize(nOctaves + 1);
     for(int o = 0; o < keyboard_samples.size(); o++)
     {
         keyboard_samples[o].resize(nNotes + 1);
+        sounds[o].resize(nNotes + 1);
+        buffers[o].resize(nNotes + 1);
     }
+    std::cout << "* data structures prepared" << std::endl;
     
 
     for(int sample = 0; sample < nsamples; sample++)
@@ -125,27 +154,24 @@ void KEYBOARD::play_octPad()
     }
     std::cout << "* samples generated" << std::endl;
 
-    std::vector<std::vector<sf::Sound>> sounds;
-    std::vector<std::vector<sf::SoundBuffer>> buffers;
-    sounds.resize(nOctaves + 1);
-    buffers.resize(nOctaves + 1);
-    for(int o = 0; o < sounds.size(); o++)
-    {
-        sounds[o].resize(nNotes + 1);
-        buffers[o].resize(nNotes + 1);
-    }
+    
 
     for(int oct = 0; oct <= nOctaves; oct++)
     {
         for(int note = 0; note < nNotes; note ++)
         {
-            buffers[oct][note].loadFromSamples(&keyboard_samples[oct][note][0], keyboard_samples[oct][note].size(), 1, 44100);
+            buffers[oct][note].loadFromSamples(
+                &keyboard_samples[oct][note][0], 
+                keyboard_samples[oct][note].size(), 
+                1, 
+                44100
+            );
             sounds[oct][note].setBuffer(buffers[oct][note]);
         }
     }
     std::cout << "* buffers prepared" << std::endl;
+    std::cout << "* ready to play" << std::endl;
 
-    sf::Window window(sf::VideoMode(_window_width, _window_height), "My window");
     
     while(!SFk::isKeyPressed(SFk::Key::Escape))
     {
