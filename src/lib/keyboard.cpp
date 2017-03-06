@@ -165,7 +165,7 @@ void KEYBOARD::play_octPad()
                 &keyboard_samples[oct][note][0], 
                 keyboard_samples[oct][note].size(), 
                 1, 
-                44100
+                nsamples
             );
             sounds[oct][note].setBuffer(buffers[oct][note]);
         }

@@ -11,8 +11,9 @@
 #include "fundamental_tones.h"
 #include "sound_engines.h"
 #include "Envelopes.h"
-
-class KEYBOARD
+#include "sound_fundamental.h"
+class KEYBOARD 
+    : sound_fundamental
 {
     typedef std::vector<sf::Int16> SAMPLES;
     typedef sf::Keyboard SFk;
@@ -20,7 +21,6 @@ class KEYBOARD
         FUNDAMENTAL_TONES ftones;
         std::map<SFk::Key, int> _keys;
         std::vector<SAMPLES> _keyboard_samples;
-        const int nsamples = 44100;
         const int _window_height = 800;
         const int _window_width = 800;
         void _gen_key_mappings();
