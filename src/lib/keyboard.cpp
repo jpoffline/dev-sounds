@@ -120,26 +120,41 @@ void KEYBOARD::play_octPad()
     std::cout << "* data structures prepared" << std::endl;
 
     // Generate the samples.
-    JP_sound::EnvelopeParams eps(nsamples);
+    /*JP_sound::EnvelopeParams eps(nsamples);
     eps.sustainLevel = 0.8;
     eps.releaseRate = 0.01;
     eps.releaseTime = 0.2;
     auto envelope = JP_sound::Envelopes(eps);
-
+    */
     for (int octave = 0; octave <= nOctaves; octave++)
     {
         for (int note = 1; note <= nNotes; note++)
         {
-            for (int sample = 0; sample < nsamples; sample++)
+            short smple(0), smple_prev(0);
+            auto freq = ftones.get(octave, note);
+            for (int sample = 0; ; sample++)
             {
+                smple_prev = smple;                
+                smple = JP_sound::PianoTone(sample,freq);
+                if (sample >= nsamples)
+                {
+                    if ((smple > 0 && smple_prev < 0))
+                    {
+                        smple = (smple + smple_prev) / 2.0;
+                        //keyboard_samples[octave][note - 1].push_back(smple);
+                        break;
+                    }
+                }
 
-                keyboard_samples[octave][note - 1].push_back(
-                    envelope.get(sample) * JP_sound::PianoTone(
-                                               sample,
-                                               ftones.get(octave, note)));
+                keyboard_samples[octave][note - 1].push_back(smple);
+                
+
+
             }
         }
     }
+    
+    tests::dump_samples_loop(keyboard_samples[2][1]);
 
     std::cout << "* samples generated" << std::endl;
 

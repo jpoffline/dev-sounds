@@ -6,18 +6,21 @@
 #include <iostream>
 #include <vector>
 
-
+#include "types.h"
 #include "Interactions.h"
 #include "fundamental_tones.h"
 #include "sound_engines.h"
 #include "Envelopes.h"
 #include "sound_fundamental.h"
+#include "tests.h"
 
 class KEYBOARD 
     : sound_fundamental
 {
-    typedef std::vector<sf::Int16> SAMPLES;
-    typedef sf::Keyboard SFk;
+    
+    typedef JP_SOUND::SAMPLES SAMPLES;
+    typedef JP_SOUND::SFk SFk;
+        
     private:
         FUNDAMENTAL_TONES ftones;
         std::map<SFk::Key, int> _keys;
@@ -42,6 +45,7 @@ class KEYBOARD
         void play();
         void play_pad();
         void play_octPad();
+
         
 
 

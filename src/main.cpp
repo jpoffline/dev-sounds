@@ -4,6 +4,7 @@
 #include "lib/tests.h"
 #include "lib/exception.h"
 #include "lib/keyboard.h"
+#include "lib/oct_pad_window.h"
 #include <string>
 int main2(int argc, char* argv[])
 {
@@ -41,6 +42,14 @@ int main2(int argc, char* argv[])
     {
         KEYBOARD keyboard;
         keyboard.play_octPad();
+    }
+    else if(mode == "--window")
+    {
+        oct_pad_window window(800,800);
+        window.nOctaves(10);
+        window.nNotes(10);
+        window.draw();
+
     }
     else
     {

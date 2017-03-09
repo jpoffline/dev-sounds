@@ -52,6 +52,26 @@ void test_samples()
 }
     
 
+void dump_samples_loop(JP_SOUND::SAMPLES& samples)
+{
+    std::ofstream out(scratch_loc + "test_samples_21_2.txt");
+    
+    int offset = 4;
+
+
+    for(int s = samples.size() - offset; s < samples.size(); s ++)
+    {
+        out << samples[s] << "\n";
+    }
+
+    for(int s = 0; s < offset; s ++)
+    {
+        out  << samples[s] << "\n";
+    }
+    out.close();
+}
+
+
 void test_samples_with_envelope()
 {
     SOUND sound;
