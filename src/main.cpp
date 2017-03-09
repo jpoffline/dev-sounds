@@ -45,9 +45,7 @@ int main2(int argc, char* argv[])
     }
     else if(mode == "--window")
     {
-        oct_pad_window window(800,800);
-        window.nOctaves(10);
-        window.nNotes(10);
+        oct_pad_window window;
         window.draw();
 
     }

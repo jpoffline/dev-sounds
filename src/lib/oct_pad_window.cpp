@@ -5,10 +5,6 @@ oct_pad_window::oct_pad_window()
 {
 }
 
-oct_pad_window::oct_pad_window(int w, int h)
-    : _window_width(w), _window_height(h)
-{
-}
 
 sf::Vector2i
 oct_pad_window::_mouse_loc()
@@ -57,15 +53,6 @@ oct_pad_window::_coords_to_box()
 }
 
 
-void oct_pad_window::nOctaves(int n)
-{
-    _n_octaves = n;
-}
-
-void oct_pad_window::nNotes(int n)
-{
-    _n_notes = n;
-}
 
 
 sf::Color 
