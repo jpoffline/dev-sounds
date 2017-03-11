@@ -13,10 +13,6 @@ void hud::setup_hud()
     }
 //    write_to_hud("Hello");
   //  _hud.display();   
-    draw_equaliser_block(0, 5);
-    draw_equaliser_block(1, 10);
-    draw_equaliser_block(2, 20);
-    draw_equaliser_block(3, 70);
     _update();
 }
 
@@ -33,6 +29,7 @@ void hud::write_to_hud(std::string msg)
 
 void hud::_update()
 {
+    _eq.update(_hud);
     _hud.display();
 }
 
@@ -41,6 +38,7 @@ void hud::update()
     _update();
 }
 
+/// Clear the entire hud.
 void hud::clean()
 {
     _hud.clear(sf::Color(100,100,100));
@@ -48,7 +46,7 @@ void hud::clean()
 
 void hud::draw_equaliser_block(int channel, float height)
 {
-    _eq.draw_eq_block(_hud, channel, height);
+    _eq.add(channel, height);
 }
 
 void hud::draw_equaliser_blocks(std::vector<std::pair<int, int>> blocks)
