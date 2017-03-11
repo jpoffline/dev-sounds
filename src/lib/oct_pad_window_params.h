@@ -2,11 +2,20 @@
 
 struct oct_pad_window_params{
 
-    const int _window_height = 800;
-    const int _window_width  = 800;
+    /// Height and width of the full application window
+    const int _window_height = 400;
+    const int _window_width  = 400;
+    
+    /// Number of ocataves
     const int _n_octaves     = 10;
+
+    /// Number of notes
     const int _n_notes       = 10;
-    const int _movable_pad_height = 600;
-    const int _modable_pad_width = 800;
+
+    /// Height of the octo-pad
+    const int _movable_pad_height = 400;
+
+    /// Width of the octo-pad
+    const int _modable_pad_width = 400;
 
 };

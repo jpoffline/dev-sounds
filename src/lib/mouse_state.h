@@ -14,7 +14,8 @@ class box_rep_cache
         bool changed();
 };
 
-class mouse_state: public oct_pad_window_params{
+
+class mouse_state: public oct_pad_window_params {
 
     private:
         box_rep_cache _box_rep;

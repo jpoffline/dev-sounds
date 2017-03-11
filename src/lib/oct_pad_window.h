@@ -9,6 +9,8 @@
 class oct_pad_window : public oct_pad_window_params
 {
 
+  typedef std::pair<int, int> OCTNOTE;
+
   private:
     double height_per_octave;
     double width_per_note;
@@ -19,10 +21,18 @@ class oct_pad_window : public oct_pad_window_params
     std::pair<int, int> _coords_to_box(int x, int y);
     std::pair<int, int> _coords_to_box(sf::Vector2i);
     std::pair<int, int> _coords_to_box();
-    sf::Color _oct_note_to_colour(int, int);
-    sf::Color _oct_note_to_colour(int, int, int, int);
-    sf::Vector2i _oct_note_to_position(int, int);
+    sf::Color _oct_note_to_colour(OCTNOTE);
+    sf::Color _oct_note_to_colour(OCTNOTE, OCTNOTE);
+    sf::Vector2i _oct_note_to_position(OCTNOTE);
     mouse_state _mouse_state;    
+
+
+    sf::Vector2f _oct_pad_box_size;
+
+    void _mouse_state_to_action();
+
+    void _draw(std::pair<int, int>);
+
 
   public:
     oct_pad_window();
