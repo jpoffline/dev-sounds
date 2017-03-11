@@ -5,6 +5,9 @@
 #include <iostream>
 #include "mouse_state.h"
 #include "oct_pad_window_params.h"
+#include "hud.h"
+
+
 
 class oct_pad_window : public oct_pad_window_params
 {
@@ -16,7 +19,9 @@ class oct_pad_window : public oct_pad_window_params
     double height_per_octave;
     double width_per_note;
     sf::RenderWindow _window;
+    
     void _setup_window();
+    
     bool _is_mouse_in_window();
     sf::Vector2i _mouse_loc();
     std::pair<int, int> _coords_to_box(int x, int y);
@@ -27,19 +32,24 @@ class oct_pad_window : public oct_pad_window_params
     sf::Color _oct_note_to_colour(OCTNOTE, OCTSELECTED);
     sf::Vector2i _oct_note_to_position(OCTNOTE);
     mouse_state _mouse_state;    
-
+    hud _hud;
 
     sf::Vector2f _oct_pad_box_size;
 
     void _mouse_state_to_action();
 
-    void _draw(std::pair<int, int>);
+    void _draw(OCTNOTE);
 
 
     sf::RectangleShape _get_octpad_box(OCTNOTE octnote, OCTSELECTED);
 
     OCTSELECTED _is_octnote_selected(OCTNOTE, OCTNOTE);
 
+    
+
+
+    
+    void _write_to_hud(OCTNOTE);
 
   public:
     oct_pad_window();

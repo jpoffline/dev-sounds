@@ -17,6 +17,7 @@ oct_pad_window::_mouse_loc()
 void oct_pad_window::draw()
 {
     _setup_window();
+    _hud.setup_hud();
     _mouse_state_to_action();
 }
 
@@ -64,7 +65,7 @@ oct_pad_window::_oct_note_to_colour(OCTNOTE octnote)
 sf::Color
 oct_pad_window::_oct_note_to_colour(OCTNOTE octnote, OCTNOTE selected)
 {
-    if(_is_octnote_selected(octnote, selected))
+    if (_is_octnote_selected(octnote, selected))
     {
         return sf::Color::Blue;
     }
@@ -105,11 +106,20 @@ sf::RectangleShape oct_pad_window::_get_octpad_box(OCTNOTE octnote, OCTSELECTED 
     return rectangle;
 }
 
+void oct_pad_window::_write_to_hud(OCTNOTE octnote)
+{
+    std::string msg = std::to_string(octnote.first) 
+    + " \n: " + std::to_string(octnote.second);
+    _hud.write_to_hud(msg);
+}
+
 void oct_pad_window::_setup_window()
 {
 
     _window.create(sf::VideoMode(_window_width, _window_height),
-                   "OctaPad");
+                   _pad_title);
+
+    _window.setPosition(sf::Vector2i(_pad_window_loc_init_x, _pad_window_loc_init_y));
 
     for (int octave = 0; octave <= _n_octaves; octave++)
     {
@@ -126,10 +136,10 @@ void oct_pad_window::_mouse_state_to_action()
 
     while (_window.isOpen())
     {
-        _mouse_state.locate(_window);
+
         if (_is_mouse_in_window())
         {
-
+            _mouse_state.locate(_window);
             if (_mouse_state.moved_box())
             {
                 _draw(_coords_to_box());
@@ -140,8 +150,9 @@ void oct_pad_window::_mouse_state_to_action()
 
 /// Draw the OctoPad window, when one of the boxes on the pad has been selected.
 /// Pass in the octave-note pair corresponding to the selected box.
-void oct_pad_window::_draw(std::pair<int, int> selected)
+void oct_pad_window::_draw(OCTNOTE selected)
 {
+    _write_to_hud(selected);
     for (int octave = 0; octave <= _n_octaves; octave++)
     {
         for (int note = 1; note <= _n_notes; note++)
