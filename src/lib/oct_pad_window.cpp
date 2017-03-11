@@ -36,8 +36,8 @@ oct_pad_window::_coords_to_box(int x, int y)
     // From a position on the screen, return a pair
     // containing the octave and note-number.
     return std::make_pair<int, int>(
-        (int)(_n_octaves * y / (float)_window_height),
-        (int)(_n_notes * x / (float)_window_width));
+        (int)(_n_octaves * y / (float)_movable_pad_height),
+        (int)(_n_notes * x / (float)_modable_pad_width));
 }
 
 std::pair<int, int> 
@@ -88,8 +88,10 @@ void oct_pad_window::_setup_window()
     _window.create(sf::VideoMode(_window_width, _window_height),
                    "Window");
 
-    height_per_octave = (double)_window_height / _n_octaves;
-    width_per_note    = (double)_window_width / _n_notes;
+    height_per_octave = (double)_movable_pad_height / _n_octaves;
+    width_per_note    = (double)_modable_pad_width / _n_notes;
+
+    _mouse_state.locate(_window);
 
     for (int octave = 0; octave <= _n_octaves; octave++)
     {
@@ -110,8 +112,10 @@ void oct_pad_window::_setup_window()
 
     while (_window.isOpen())
     {
+        _mouse_state.locate(_window);
         if(_is_mouse_in_window())
         {
+            /*
             auto selected = _coords_to_box();
 
             for (int octave = 0; octave <= _n_octaves; octave++)
@@ -127,11 +131,16 @@ void oct_pad_window::_setup_window()
                     rectangle.setPosition(pos.x, pos.y);
                     _window.draw(rectangle);
                 }
+            }*/
+            
+            if(_mouse_state.moved_box())
+            {
+                std::cout << "moved box\n";
             }
 
 
         }
-         _window.display();
+         //_window.display();
 
     }
 
