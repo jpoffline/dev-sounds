@@ -11,18 +11,47 @@ void hud::setup_hud()
     if (!_hud_font.loadFromFile( "src/lib/fonts/sansation.ttf")) {
         std::cerr << "ERR font\n";
     }
-    write_to_hud("Hello");
-    _hud.display();   
-
+//    write_to_hud("Hello");
+  //  _hud.display();   
+    draw_equaliser_block(0, 5);
+    draw_equaliser_block(1, 10);
+    draw_equaliser_block(2, 20);
+    draw_equaliser_block(3, 70);
+    _update();
 }
 
 
 void hud::write_to_hud(std::string msg)
 {
-    _hud.clear(sf::Color(100,100,100));
+    clean();
 
     sf::Text text(msg, _hud_font, 50);
     text.setFillColor(sf::Color::Black);
     _hud.draw(text);
+    _update();
+}
+
+void hud::_update()
+{
     _hud.display();
+}
+
+void hud::update()
+{
+    _update();
+}
+
+void hud::clean()
+{
+    _hud.clear(sf::Color(100,100,100));
+}
+
+void hud::draw_equaliser_block(int channel, float height)
+{
+    _eq.draw_eq_block(_hud, channel, height);
+}
+
+void hud::draw_equaliser_blocks(std::vector<std::pair<int, int>> blocks)
+{
+
 }

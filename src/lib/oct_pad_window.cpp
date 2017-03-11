@@ -152,7 +152,10 @@ void oct_pad_window::_mouse_state_to_action()
 /// Pass in the octave-note pair corresponding to the selected box.
 void oct_pad_window::_draw(OCTNOTE selected)
 {
-    _write_to_hud(selected);
+    //_write_to_hud(selected);
+    _hud.clean();
+    _hud.draw_equaliser_block(selected.first, selected.second * 10);
+    _hud.update();
     for (int octave = 0; octave <= _n_octaves; octave++)
     {
         for (int note = 1; note <= _n_notes; note++)
