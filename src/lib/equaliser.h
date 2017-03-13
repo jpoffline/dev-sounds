@@ -5,8 +5,9 @@
 #include <iostream>
 #include <vector>
 #include "oct_pad_window_params.h"
+#include "fundamental_tones.h"
 
-class equaliser
+class equaliser : public oct_pad_window_params
 {
 
     typedef std::pair<int, float> CHANNEL;
@@ -16,10 +17,13 @@ class equaliser
     float max_height = 100;
     int origin_pos_x = 0;
     int origin_pos_y = 50;
-    const int nchannels = 10;
+    const int nchannels = 100;
 
-    int width = 20;
-    int space = 20;
+    float width_per_channel;
+    float freq_width_per_channel;
+    int space = 2;
+
+    float width_total_npixels = (float)_modable_pad_width;
 
     sf::Vector2f _channel_to_location(int channel);
     sf::Vector2f _mag_to_size(float);
@@ -28,7 +32,15 @@ class equaliser
     void _draw_blocks(sf::RenderWindow &hud);
 
 
+    FUNDAMENTAL_TONES ftones;
 
+    int _frequency_to_channel_idx(float);
+
+    void _calc_npixels_per_channel();
+    void _calc_freq_width_per_channel();
+
+
+    void _print_eq_settings(std::ostream&);
 
   public:
     equaliser();
@@ -36,6 +48,8 @@ class equaliser
     /// Add a channel to the equaliser.
     void add(int channel, float height);
 
+
+    void add(std::pair<float, float>);
 
     /// Add a channel to the equaliser.
     void add(CHANNEL channel);

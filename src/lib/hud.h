@@ -10,6 +10,9 @@
 
 class hud  : public oct_pad_window_params
 {
+
+  
+
   private:
     sf::RenderWindow _hud;
     sf::Font _hud_font;
@@ -19,6 +22,7 @@ class hud  : public oct_pad_window_params
     void setup_hud();
     void write_to_hud(std::string);
     void draw_equaliser_block(int channel, float height);
+    void draw_equaliser_block(float freq, float height);
     void draw_equaliser_blocks(std::vector<std::pair<int, int>>);
     void update();
     void clean();

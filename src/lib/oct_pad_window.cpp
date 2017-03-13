@@ -26,7 +26,7 @@ bool oct_pad_window::_is_mouse_in_window()
     auto loc = _mouse_loc();
     // Function to decide whether or not the is inside the window.
     if (
-        loc.x<0 | loc.y<0 | loc.x> _window_height | loc.y> _window_width)
+        loc.x<0 | loc.y<0 | loc.y> _movable_pad_height | loc.x> _modable_pad_width)
     {
         return false;
     }
@@ -116,7 +116,7 @@ void oct_pad_window::_write_to_hud(OCTNOTE octnote)
 void oct_pad_window::_setup_window()
 {
 
-    _window.create(sf::VideoMode(_window_width, _window_height),
+    _window.create(sf::VideoMode(_modable_pad_width, _movable_pad_height),
                    _pad_title);
 
     _window.setPosition(sf::Vector2i(_pad_window_loc_init_x, _pad_window_loc_init_y));
@@ -152,9 +152,12 @@ void oct_pad_window::_mouse_state_to_action()
 /// Pass in the octave-note pair corresponding to the selected box.
 void oct_pad_window::_draw(OCTNOTE selected)
 {
-    //_write_to_hud(selected);
+    
+    float freq = ftones.get(selected.first, selected.second);
+    
     _hud.clean();
-    _hud.draw_equaliser_block(selected.first, selected.second * 10);
+    //_hud.draw_equaliser_block(selected.first, selected.second * 10);
+    _hud.draw_equaliser_block(freq, 50);
     _hud.update();
     for (int octave = 0; octave <= _n_octaves; octave++)
     {

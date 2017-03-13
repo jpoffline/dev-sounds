@@ -6,7 +6,7 @@
 #include "mouse_state.h"
 #include "oct_pad_window_params.h"
 #include "hud.h"
-
+#include "fundamental_tones.h"
 
 
 class oct_pad_window : public oct_pad_window_params
@@ -45,7 +45,7 @@ class oct_pad_window : public oct_pad_window_params
 
     OCTSELECTED _is_octnote_selected(OCTNOTE, OCTNOTE);
 
-    
+    FUNDAMENTAL_TONES ftones;
 
 
     

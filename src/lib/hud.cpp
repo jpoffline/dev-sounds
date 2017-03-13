@@ -49,6 +49,12 @@ void hud::draw_equaliser_block(int channel, float height)
     _eq.add(channel, height);
 }
 
+void hud::draw_equaliser_block(float freq, float height)
+{
+    _eq.add(std::pair<float, float>(freq,height));
+}
+
+
 void hud::draw_equaliser_blocks(std::vector<std::pair<int, int>> blocks)
 {
 
